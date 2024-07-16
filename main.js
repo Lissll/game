@@ -288,6 +288,8 @@ function resetGame(){
 let audioBack=new Audio('audioBack.mp3');
 let meow=new Audio('meow.mp3');
 let jump=new Audio('jump.mp3');
+const rule=document.getElementById('rule');
+const krestik=document.getElementById('krestik');
 function startmenu() {
     ctx.clearRect(0, 0, canvas_width, canvas_height);
     canvas.width=800;
@@ -297,10 +299,9 @@ function startmenu() {
     function playMeow(){
         meow.oncanplaythrough = function() {
             meow.play();
-            meow.volume = 0.3;
+            meow.volume = 0.5;
         };
     }
-    playMeow();
     ctx.drawImage(background_menu, 0, 0);
     ctx.drawImage(kubok, 20, 10);
     ctx.drawImage(question, 680, 10);
@@ -319,17 +320,41 @@ function startmenu() {
     ctx.textAlign = 'center';
     ctx.font= "45px Arial";
     ctx.fillText("in Japan", 380, 120);
-    
     requestAnimationFrame(startmenu);
 }
+function rules(){
+    console.log("hi");
+    ctx.clearRect(0, 0, canvas_width, canvas_height);
+    ctx.drawImage(rule, 0, 0);
+    ctx.drawImage(krestik, 730, 20);
+    requestAnimationFrame(rules);
+}
+canvas.addEventListener('click', function(event) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (x >= 730 && x <= 730 +krestik.width &&
+        y >= 20 && y <= 20 + krestik.height){
+            startmenu();
+    }
+}); 
+canvas.addEventListener('click', function(event) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (x >= 680 && x <= 680 + question.width &&
+        y >= 10 && y <= 10 + question.height){
+            rules();
+    }
+}); 
 window.onload = startmenu;
 canvas.addEventListener('click', function(event) {
-        let rect = canvas.getBoundingClientRect();
-        let x = event.clientX - rect.left;
-        let y = event.clientY - rect.top;
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
         if (x >= 310 && x <= 510 && y >= 200 && y <= 380) {
             animate();
         }
         meow.pause();
         meow.currentTime=0;
-});
+}); 
