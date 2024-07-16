@@ -297,10 +297,10 @@ function startmenu() {
     function playMeow(){
         meow.oncanplaythrough = function() {
             meow.play();
-            meow.volume = 0.5;
+            meow.volume = 0.3;
         };
     }
-    setInterval(playMeow, 25000);
+    playMeow();
     ctx.drawImage(background_menu, 0, 0);
     ctx.drawImage(kubok, 5, 10);
     ctx.drawImage(question, 680, 10);
