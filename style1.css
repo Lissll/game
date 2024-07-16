@@ -1,0 +1,29 @@
+body{
+    background-color: cadetblue;
+}
+#canvas{
+    border: solid black 3px;
+    width: 800px; 
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* function animate(){
+    ctx.clearRect(0,0, canvas_width, canvas_height);
+    backgroundObject.forEach(object =>{
+        object.update();
+        object.draw();     
+    });
+    let position=Math.floor(gameFrame/staggerFrames)%spriteAnimations[playerState].loc.length;
+    let frameX=cat_width*position;
+    let frameY=spriteAnimations[playerState].loc[position].y;
+    ctx.drawImage(cat, frameX,frameY,cat_width,cat_height, 0,2200, 4000, 1800);
+    let dog_position=Math.floor(gameFrame/dog_staggerFrames)%8;
+    dog_frameX=dog_width*dog_position;
+    ctx.drawImage(dog, dog_frameX, 0, dog_width, dog_height, 5000, 3230, 2500, 800);
+    gameFrame++;
+    requestAnimationFrame(animate);
+}; 
+animate();*/
