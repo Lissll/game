@@ -85,7 +85,7 @@ const backgroundObject=[backgroundLayer, average_planLayer, foregroundLayer];
 const dog_width=506;
 const dog_height=198;
 let dog_frameX=0;
-const dog_staggerFrames=1;
+const dog_staggerFrames=3;
 document.addEventListener('keydown', function(event){
     if (event.code === 'Space' || event.code === 'ArrowUp'){
         if (playerState === 'run') {
