@@ -78,9 +78,9 @@ statesAnimation.forEach((state, index) =>{
     }
     spriteAnimations[state.name]=frames;
 });
-const foregroundLayer=new Layer(foreground, 250, 1190);
-const average_planLayer=new Layer(average_plan, 150, 600);
-const backgroundLayer=new Layer(background, 80, 0);
+const foregroundLayer=new Layer(foreground, 80, 1190);
+const average_planLayer=new Layer(average_plan, 50, 600);
+const backgroundLayer=new Layer(background, 20, 0);
 const backgroundObject=[backgroundLayer, average_planLayer, foregroundLayer];
 const dog_width=506;
 const dog_height=198;
@@ -93,7 +93,7 @@ document.addEventListener('keydown', function(event){
             jumpHeight-=50;
             setTimeout(() => {
                 playerState = 'run'; 
-            }, 1500);
+            }, 500);
             setTimeout(() => {
                 jumpHeight=2200; 
             }, 500); 
@@ -107,7 +107,7 @@ class Obstacle {
         this.y = y;
         this.width = width;
         this.height = height;
-        this.speed = 500;
+        this.speed = 100;
     }
     update() {
         this.x -= this.speed;
