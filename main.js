@@ -302,7 +302,7 @@ function startmenu() {
     }
     playMeow();
     ctx.drawImage(background_menu, 0, 0);
-    ctx.drawImage(kubok, 5, 10);
+    ctx.drawImage(kubok, 20, 10);
     ctx.drawImage(question, 680, 10);
     ctx.font = "24px Arial";
     ctx.fillStyle = "black";
