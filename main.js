@@ -1,7 +1,7 @@
 const canvas=document.getElementById('canvas');
 const ctx=canvas.getContext('2d');
-const canvas_width=canvas.width=8782;
-const canvas_height=canvas.height=4000;
+let canvas_width=canvas.width=8782;
+let canvas_height=canvas.height=4000;
 const foreground=document.getElementById('foreground');
 const average_plan=document.getElementById('average_plan');
 const background=document.getElementById('background');
@@ -15,6 +15,7 @@ const background_menu2=document.getElementById('background_menu2');
 const heart=document.getElementById('heart');
 const xpFull=document.getElementById('xp_full');
 const hydrant=document.getElementById('hydrant');
+const catMenu=document.getElementById('catMenu');
 let x=0;
 let x2=8782
 class Layer{
@@ -91,6 +92,8 @@ document.addEventListener('keydown', function(event){
         if (playerState === 'run') {
             playerState = 'jump';
             jumpHeight-=50;
+            jump.play();
+            jump.volume=1;
             setTimeout(() => {
                 playerState = 'run'; 
             }, 500);
@@ -141,7 +144,11 @@ function animateDog(dog) {
 }
 let lives=3
 let gameOver=false;
-function animate() {
+let score=0;
+let maxScore=0;
+function animate(){
+    canvas.width=8782;
+    canvas.height=4000;
     ctx.clearRect(0, 0, canvas_width, canvas_height);
     backgroundObject.forEach(object => {
       object.update();
@@ -185,11 +192,22 @@ function animate() {
         createDog();
       }
     }
+    if (!gameOver){
+        score++;
+    }
+    ctx.font = "400px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Счёт:"+score, 7000, 400);
     gameFrame++;
     requestAnimationFrame(animate);
-    if (gameOver) {
+    if (gameOver){
+        if (score>maxScore){
+            maxScore=score;
+        }
+        meow.play();
+        meow.volume = 0.6;
         drawGameOverMenu();
-    }
+    }  
 }
 function checkCollision(obstacle) {
     const catX = 0; 
@@ -209,22 +227,109 @@ function checkCollision(obstacle) {
 }
 function handleCollision() {
     lives--;
-    if (lives === 0) {
+    if (lives === 0){
         gameOver = true;
         console.log("Game Over!");
     }
 }
-function drawGameOverMenu() {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+const exit=document.getElementById('exit');
+const restart=document.getElementById('restart');
+function drawGameOverMenu(){
     ctx.fillRect(0, 0, canvas_width, canvas_height);
+    canvas.height=600;
+    canvas.width=800;
+    ctx.drawImage(background_menu, 0, 0);
+    ctx.fillStyle='#520408'
+    ctx.save()
+    ctx.globalAlpha=0.5;
+    ctx.fillRect(0,0,canvas.width, canvas.height);
+    ctx.restore();
+    ctx.font = "50px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText("Вы проиграли", 250, 300);
+    ctx.fillText("Счёт: " + score, 50, 80);
+    ctx.drawImage(restart, 250, 400);
+    ctx.drawImage(exit, 500, 400);
+    ctx.font='25px Arial'
+    ctx.fillText("Начать заново", 200, 500);
+    ctx.fillText("На главную", 500, 500);
 }
+canvas.addEventListener('click', function(event) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (x >= 250 && x <= 250 + restart.width &&
+        y >= 400 && y <= 400 + restart.height) {
+        resetGame();
+    }
+});
+canvas.addEventListener('click', function(event) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    if (x >= 500 && x <= 500 + exit.width &&
+        y >= 400 && y <= 400 + exit.height){
+        resetGame();
+        startmenu();
+    }
+});
 document.addEventListener('keydown', function(event){
     if(event.code === 'KeyR' && gameOver){
         resetGame();
     }
 });
-function resetGame() {
+function resetGame(){
     lives = 3;
     gameOver = false;
+    score=0;
+    obstacles = [];
+    gameFrame = 0;
 }
-animate();
+let audioBack=new Audio('audioBack.mp3');
+let meow=new Audio('meow.mp3');
+let jump=new Audio('jump.mp3');
+function startmenu() {
+    ctx.clearRect(0, 0, canvas_width, canvas_height);
+    canvas.width=800;
+    canvas.height=600;
+    audioBack.play();
+    audioBack.volume=0.3
+    function playMeow(){
+        meow.oncanplaythrough = function() {
+            meow.play();
+            meow.volume = 0.5;
+        };
+    }
+    setInterval(playMeow, 25000);
+    ctx.drawImage(background_menu, 0, 0);
+    ctx.drawImage(kubok, 5, 10);
+    ctx.drawImage(question, 680, 10);
+    ctx.font = "24px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText("Рекорд: " + maxScore, 7, 120);
+    ctx.fillText("Правила игры", 635, 120);
+    ctx.drawImage(playbutton, 310, 200, 200, 180);
+    ctx.drawImage(catMenu, 200, 400, 350, 200);
+    let gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop(0, "#07044b"); 
+    gradient.addColorStop(1, "#2d1b34"); 
+    ctx.font= "50px Arial";
+    ctx.fillStyle = gradient;
+    ctx.fillText("Cats adventures", 190, 70);
+    ctx.textAlign = 'center';
+    ctx.font= "45px Arial";
+    ctx.fillText("in Japan", 380, 120);
+    
+    requestAnimationFrame(startmenu);
+}
+window.onload = startmenu;
+canvas.addEventListener('click', function(event) {
+        let rect = canvas.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        let y = event.clientY - rect.top;
+        if (x >= 310 && x <= 510 && y >= 200 && y <= 380) {
+            animate();
+        }
+        meow.pause();
+        meow.currentTime=0;
+});
