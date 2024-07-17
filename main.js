@@ -316,7 +316,7 @@ function startmenu() {
     gradient.addColorStop(1, "#2d1b34"); 
     ctx.font= "50px Arial";
     ctx.fillStyle = gradient;
-    ctx.fillText("Cats adventures", 190, 70);
+    ctx.fillText("Cat adventures", 190, 70);
     ctx.textAlign = 'center';
     ctx.font= "45px Arial";
     ctx.fillText("in Japan", 380, 120);
