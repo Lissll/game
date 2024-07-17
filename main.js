@@ -323,7 +323,6 @@ function startmenu() {
     requestAnimationFrame(startmenu);
 }
 function rules(){
-    console.log("hi");
     ctx.clearRect(0, 0, canvas_width, canvas_height);
     ctx.drawImage(rule, 0, 0);
     ctx.drawImage(krestik, 730, 20);
