@@ -238,7 +238,7 @@ function drawGameOverMenu(){
     ctx.fillRect(0, 0, canvas_width, canvas_height);
     canvas.height=600;
     canvas.width=800;
-    ctx.drawImage(background_menu, 0, 0);
+    ctx.drawImage(background_menu2, 0, 0);
     ctx.fillStyle='#520408'
     ctx.save()
     ctx.globalAlpha=0.5;
